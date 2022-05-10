@@ -1,8 +1,9 @@
 import { StyleSheet, View } from "react-native"
+import { theme } from "../theme"
 
 const styles = StyleSheet.create({
   separator: {
-    height: 10
+    height: theme.spacing.regular
   }
 })
 
