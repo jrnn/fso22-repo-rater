@@ -5,6 +5,10 @@ export const theme = {
     dark: "#13171d",
     light: "#f4f6f9",
     primary: "#53657f",
+    primaryLight: "#7f97bf",
+    error: "#c12f3e",
+    grey: "#7f838b",
+    greyLight: "#adb3bf",
     _maybeLater: "#25354d"
   },
   rounding: {
