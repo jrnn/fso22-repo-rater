@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native"
 import Constants from "expo-constants"
 import AppBarTab from "./AppBarTab"
 import { theme } from "../theme"
+import { useNavigate } from "react-router-native"
 
 const styles = StyleSheet.create({
   container: {
@@ -12,15 +13,20 @@ const styles = StyleSheet.create({
   }
 })
 
-const AppBar = () => (
-  <View style={styles.container}>
-    <AppBarTab
-      label="Repositories"
-      onPress={() => {
-        console.log("User pressed on 'Repositories'")
-      }}
-    />
-  </View>
-)
+const AppBar = () => {
+  const navigate = useNavigate()
+  return (
+    <View style={styles.container}>
+      <AppBarTab
+        label="Repositories"
+        onPress={() => navigate("/")}
+      />
+      <AppBarTab
+        label="Sign in"
+        onPress={() => navigate("/signin")}
+      />
+    </View>
+  )
+}
 
 export default AppBar
