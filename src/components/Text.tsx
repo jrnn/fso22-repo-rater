@@ -3,7 +3,7 @@ import { StyleProp, StyleSheet, Text as NativeText, TextProps, TextStyle } from 
 import { theme } from "../theme"
 
 type Color = "dark" | "light"
-type Variant = "body" | "subheading"
+type Variant = "body" | "caption" | "subheading"
 type Weight = "light" | "medium" | "bold"
 
 interface Props extends TextProps {
@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
   },
   colorLight: {
     color: theme.palette.light
+  },
+  variantCaption: {
+    fontSize: theme.typography.fontSize.caption
   },
   variantSubheading: {
     fontSize: theme.typography.fontSize.subheading
@@ -45,6 +48,7 @@ const Text: FC<Props> = ({
     style={[
       styles.regular,
       color === "light" && styles.colorLight,
+      variant === "caption" && styles.variantCaption,
       variant === "subheading" && styles.variantSubheading,
       weight === "light" && styles.weightLight,
       weight === "bold" && styles.weightBold,

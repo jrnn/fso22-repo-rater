@@ -3,8 +3,12 @@ type FontWeight = "300" | "400" | "700"
 export const theme = {
   palette: {
     dark: "#13171d",
-    light: "#f7f9fb",
-    primary: "#25354d"
+    light: "#f4f6f9",
+    primary: "#53657f",
+    _maybeLater: "#25354d"
+  },
+  rounding: {
+    regular: 6
   },
   spacing: {
     dense: 6,
@@ -13,8 +17,9 @@ export const theme = {
   },
   typography: {
     fontSize: {
-      body: 14,
-      subheading: 16
+      body: 15,
+      caption: 13,
+      subheading: 17
     },
     fontWeight: {
       light: "300" as FontWeight,
