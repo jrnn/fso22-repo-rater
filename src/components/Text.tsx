@@ -16,6 +16,7 @@ interface Props extends TextProps {
 const styles = StyleSheet.create({
   regular: {
     color: theme.palette.dark,
+    fontFamily: theme.typography.font.main,
     fontSize: theme.typography.fontSize.body,
     fontWeight: theme.typography.fontWeight.medium
   },
