@@ -1,8 +1,15 @@
 import { useApolloClient } from "@apollo/client"
 import { useNavigate } from "react-router-native"
 import { useAuthStorage, useNotifier } from "../contexts"
-import { useAuthenticateMutation } from "../graphql"
+import { useAuthenticateMutation, useMeQuery } from "../graphql"
 import { Credentials } from "../types"
+
+export const useWhoAmI = () => {
+  const { data } = useMeQuery()
+  return !data
+    ? undefined
+    : data.me?.username
+}
 
 export const useSignIn = () => {
   const apolloClient = useApolloClient()
@@ -30,4 +37,18 @@ export const useSignIn = () => {
   }
 
   return { signIn }
+}
+
+export const useSignOut = () => {
+  const apolloClient = useApolloClient()
+  const { removeAccessToken } = useAuthStorage()
+  const { notifySuccess } = useNotifier()
+
+  const signOut = async () => {
+    await removeAccessToken()
+    apolloClient.resetStore()
+    notifySuccess("You are now signed out")
+  }
+
+  return { signOut }
 }

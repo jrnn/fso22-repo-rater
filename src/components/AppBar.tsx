@@ -1,8 +1,9 @@
 import { ScrollView, StyleSheet, View } from "react-native"
+import { useNavigate } from "react-router-native"
 import Constants from "expo-constants"
 import AppBarTab from "./AppBarTab"
+import { useSignOut, useWhoAmI } from "../hooks"
 import { theme } from "../theme"
-import { useNavigate } from "react-router-native"
 
 const styles = StyleSheet.create({
   container: {
@@ -15,6 +16,9 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
   const navigate = useNavigate()
+  const me = useWhoAmI()
+  const { signOut } = useSignOut()
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
@@ -22,10 +26,16 @@ const AppBar = () => {
           label="Repositories"
           onPress={() => navigate("/")}
         />
-        <AppBarTab
-          label="Sign in"
-          onPress={() => navigate("/signin")}
-        />
+        {!me ?
+          <AppBarTab
+            label="Sign in"
+            onPress={() => navigate("/signin")}
+          /> :
+          <AppBarTab
+            label="Sign out"
+            onPress={signOut}
+          />
+        }
       </ScrollView>
     </View>
   )

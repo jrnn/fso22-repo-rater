@@ -1,7 +1,7 @@
 import { FlatList } from "react-native"
-import { useRepositories } from "../graphql"
 import RepositoryItem from "./RepositoryItem"
 import Separator from "./Separator"
+import { useRepositories } from "../hooks"
 
 const RepositoryList = () => {
   const { repositories } = useRepositories()

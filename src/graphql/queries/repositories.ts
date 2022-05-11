@@ -29,17 +29,5 @@ const REPOSITORIES = gql`
   }
 `
 
-export const useRepositories = () => {
-  const { data, loading, refetch } = useQuery<RepositoriesResponse>(REPOSITORIES, {
-    fetchPolicy: "cache-and-network"
-  })
-  const repositories = !data
-    ? []
-    : data.repositories.edges.map(edge => edge.node)
-
-  return {
-    repositories,
-    loading,
-    refetch
-  }
-}
+export const useRepositoriesQuery = () =>
+  useQuery<RepositoriesResponse>(REPOSITORIES, { fetchPolicy: "cache-and-network" })

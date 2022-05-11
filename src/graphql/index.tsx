@@ -15,8 +15,10 @@ const createApolloClient = (authStorage: AuthStorage) => {
       const token = await authStorage.getAccessToken()
       if (token) {
         return {
-          ...headers,
-          authorization: `Bearer ${token}`
+          headers: {
+            ...headers,
+            authorization: `Bearer ${token}`
+          }
         }
       }
     } catch (error) {
@@ -40,5 +42,6 @@ export const GraphQLProvider: FC<PropsWithChildren<unknown>> = ({ children }) =>
   )
 }
 
-export { useAuthenticateMutation } from "./mutations/useAuthenticate"
-export { useRepositories } from "./queries/useRepositories"
+export { useAuthenticateMutation } from "./mutations/authenticate"
+export { useMeQuery } from "./queries/me"
+export { useRepositoriesQuery } from "./queries/repositories"
