@@ -1,8 +1,11 @@
+import { useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
-import { theme } from "../theme"
 import Button from "./Button"
 import ControlledTextInput from "./ControlledTextInput"
+import Notification from "./Notification"
+import { useAuthenticate } from "../graphql"
+import { theme } from "../theme"
 
 const styles = StyleSheet.create({
   container: {
@@ -16,13 +19,23 @@ interface Inputs {
 }
 
 const SignIn = () => {
-  const form = useForm<Inputs>()
+  const form = useForm<Inputs>({
+    defaultValues: {
+      username: "",
+      password: ""
+    }
+  })
+  const { authenticate } = useAuthenticate()
   const { formState: { errors }, handleSubmit } = form
+  const [ error, setError ] = useState<string>()
+
   const onSubmit: SubmitHandler<Inputs> = values => {
-    console.log("sign-in form values =", values)
+    authenticate(values, ({ message }) => setError(message))
   }
+
   return (
     <FormProvider { ...form }>
+      {error && <Notification type="error" message={error} />}
       <View style={styles.container}>
         <ControlledTextInput
           name="username"

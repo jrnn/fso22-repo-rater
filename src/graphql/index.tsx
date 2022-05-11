@@ -18,6 +18,7 @@ const GraphQLProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
   )
 }
 
+export { useAuthenticate } from "./mutations/useAuthenticate"
 export { useRepositories } from "./queries/useRepositories"
 
 export default GraphQLProvider
