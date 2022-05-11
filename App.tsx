@@ -1,35 +1,22 @@
-import { StyleSheet, View } from "react-native"
-import { NativeRouter, Navigate, Route, Routes } from "react-router-native"
+import { NativeRouter } from "react-router-native"
 import { StatusBar } from "expo-status-bar"
-import AppBar from "./src/components/AppBar"
-import RepositoryList from "./src/components/RepositoryList"
-import SignIn from "./src/components/SignIn"
-import GraphQLProvider from "./src/graphql"
+import { AuthStorageProvider, NotificationProvider } from "./src/contexts"
+import { GraphQLProvider } from "./src/graphql"
+import Main from "./src/components/Main"
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#ffffff"
-  }
-})
-
-const App = () => {
-  return (
-    <>
-      <NativeRouter>
+const App = () => (
+  <>
+    <NativeRouter>
+      <AuthStorageProvider>
         <GraphQLProvider>
-          <View style={styles.container}>
-            <AppBar />
-            <Routes>
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/" element={<RepositoryList />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </View>
+          <NotificationProvider>
+            <Main />
+          </NotificationProvider>
         </GraphQLProvider>
-      </NativeRouter>
-      <StatusBar style="auto" />
-    </>
-  )
-}
+      </AuthStorageProvider>
+    </NativeRouter>
+    <StatusBar style="auto" />
+  </>
+)
 
 export default App

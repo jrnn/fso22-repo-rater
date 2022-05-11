@@ -1,15 +1,10 @@
-import { ApolloError, gql, useMutation } from "@apollo/client"
-import { doNothing } from "../../util"
+import { gql, useMutation } from "@apollo/client"
+import { Credentials } from "../../types"
 
 interface AuthenticateResponse {
   authenticate: {
     accessToken: string
   }
-}
-
-interface Credentials {
-  username: string
-  password: string
 }
 
 interface AuthenticateVariables {
@@ -28,18 +23,5 @@ const AUTHENTICATE = gql`
   }
 `
 
-export const useAuthenticate = () => {
-  const [ mutate, result ] = useMutation<AuthenticateResponse, AuthenticateVariables>(AUTHENTICATE)
-
-  const authenticate = (credentials: Credentials, onError?: (error: ApolloError) => void) => {
-    mutate({
-      variables: { credentials },
-      onCompleted: data => {
-        console.log("sign in OK, received token =", data.authenticate.accessToken)
-      },
-      onError: onError || doNothing
-    })
-  }
-
-  return { authenticate, result }
-}
+export const useAuthenticateMutation = () =>
+  useMutation<AuthenticateResponse, AuthenticateVariables>(AUTHENTICATE)
