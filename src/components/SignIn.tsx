@@ -1,8 +1,9 @@
 import { StyleSheet, View } from "react-native"
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
-import { theme } from "../theme"
 import Button from "./Button"
 import ControlledTextInput from "./ControlledTextInput"
+import { useSignIn } from "../hooks"
+import { theme } from "../theme"
 
 const styles = StyleSheet.create({
   container: {
@@ -16,11 +17,16 @@ interface Inputs {
 }
 
 const SignIn = () => {
-  const form = useForm<Inputs>()
+  const { signIn } = useSignIn()
+  const form = useForm<Inputs>({
+    defaultValues: {
+      username: "",
+      password: ""
+    }
+  })
   const { formState: { errors }, handleSubmit } = form
-  const onSubmit: SubmitHandler<Inputs> = values => {
-    console.log("sign-in form values =", values)
-  }
+  const onSubmit: SubmitHandler<Inputs> = credentials => signIn(credentials)
+
   return (
     <FormProvider { ...form }>
       <View style={styles.container}>

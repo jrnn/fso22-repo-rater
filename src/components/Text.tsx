@@ -2,7 +2,7 @@ import { FC } from "react"
 import { StyleProp, StyleSheet, Text as NativeText, TextProps, TextStyle } from "react-native"
 import { theme } from "../theme"
 
-type Color = "dark" | "light" | "error"
+type Color = "dark" | "light" | "error" | "success"
 type Variant = "body" | "caption" | "subheading"
 type Weight = "light" | "medium" | "bold"
 
@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
   },
   colorError: {
     color: theme.palette.error
+  },
+  colorSuccess: {
+    color: theme.palette.success
   },
   variantCaption: {
     fontSize: theme.typography.fontSize.caption
@@ -53,6 +56,7 @@ const Text: FC<Props> = ({
       styles.regular,
       color === "light" && styles.colorLight,
       color === "error" && styles.colorError,
+      color === "success" && styles.colorSuccess,
       variant === "caption" && styles.variantCaption,
       variant === "subheading" && styles.variantSubheading,
       weight === "light" && styles.weightLight,

@@ -2,8 +2,7 @@ import { FC } from "react"
 import { GestureResponderEvent, Pressable, StyleSheet } from "react-native"
 import Text from "./Text"
 import { theme } from "../theme"
-
-const doNothing = () => { /**/ }
+import { doNothing } from "../util"
 
 const styles = StyleSheet.create({
   button: {

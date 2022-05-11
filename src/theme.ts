@@ -9,6 +9,7 @@ export const theme = {
     primary: "#53657f",
     primaryLight: "#7f97bf",
     error: "#c12f3e",
+    success: "#537f59",
     grey: "#7f838b",
     greyLight: "#adb3bf",
     _maybeLater: "#25354d"

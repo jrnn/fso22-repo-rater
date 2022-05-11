@@ -25,7 +25,19 @@
       "version": "detect"
     }
   },
+  "ignorePatterns": [
+    "**/*.js",
+    "**/*.jsx"
+  ],
   "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "ignoreRestSiblings": true,
+        "varsIgnorePattern": "^_"
+      }
+    ],
     "camelcase": "error",
     "comma-dangle": "error",
     "curly": "error",
