@@ -25,6 +25,10 @@
       "version": "detect"
     }
   },
+  "ignorePatterns": [
+    "**/*.js",
+    "**/*.jsx"
+  ],
   "rules": {
     "camelcase": "error",
     "comma-dangle": "error",
