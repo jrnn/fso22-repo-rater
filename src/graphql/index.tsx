@@ -44,6 +44,7 @@ export const GraphQLProvider: FC<PropsWithChildren<unknown>> = ({ children }) =>
 
 export { useAuthenticateMutation } from "./mutations/authenticate"
 export { useCreateReviewMutation } from "./mutations/createReview"
+export { useCreateUserMutation } from "./mutations/createUser"
 export { useMeQuery } from "./queries/me"
 export { useRepositoriesQuery } from "./queries/repositories"
 export { useRepositoryQuery } from "./queries/repository"

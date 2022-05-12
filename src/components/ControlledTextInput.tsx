@@ -1,7 +1,15 @@
 import { FC } from "react"
+import { StyleSheet } from "react-native"
 import { Controller, UseControllerProps } from "react-hook-form"
+import Text from "./Text"
 import TextInput from "./TextInput"
-import InputError from "./InputError"
+import { theme } from "../theme"
+
+const styles = StyleSheet.create({
+  bottomGutter: {
+    marginBottom: theme.spacing.dense
+  }
+})
 
 interface Props extends Omit<UseControllerProps, "control"> {
   expanding?: boolean
@@ -31,7 +39,11 @@ const ControlledTextInput: FC<Props> = ({
           secureTextEntry={obscured}
           value={value}
         />
-        <InputError error={error} />
+        {error &&
+          <Text color="error" style={styles.bottomGutter}>
+            {error.message}
+          </Text>
+        }
       </>
     )}
   />

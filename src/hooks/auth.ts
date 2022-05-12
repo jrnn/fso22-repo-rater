@@ -1,7 +1,7 @@
 import { useApolloClient } from "@apollo/client"
 import { useNavigate } from "react-router-native"
 import { useAuthStorage, useNotifier } from "../contexts"
-import { useAuthenticateMutation, useMeQuery } from "../graphql"
+import { useAuthenticateMutation, useCreateUserMutation, useMeQuery } from "../graphql"
 import { Credentials } from "../types"
 
 export const useWhoAmI = () => {
@@ -51,4 +51,27 @@ export const useSignOut = () => {
   }
 
   return { signOut }
+}
+
+export const useSignUp = () => {
+  const [ mutate ] = useCreateUserMutation()
+  const { signIn } = useSignIn()
+  const { notifyError } = useNotifier()
+
+  const signUp = (credentials: Credentials) => {
+    mutate({
+      variables: {
+        user: credentials
+      },
+      onCompleted: _ => {
+        signIn(credentials)
+      },
+      onError: error => {
+        console.error(error)
+        notifyError(error.message)
+      }
+    })
+  }
+
+  return { signUp }
 }

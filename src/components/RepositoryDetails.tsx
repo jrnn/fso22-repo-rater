@@ -23,7 +23,7 @@ const RepositoryDetailsHeader: FC<{ repository: Repository }> = ({ repository })
     <RepositoryItem repository={repository} />
     <View style={styles.buttonContainer}>
       <Button
-        label="Open in GitHub"
+        label="OPEN IN GITHUB"
         onPress={() => Linking.openURL(repository.url)}
       />
     </View>
