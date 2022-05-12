@@ -26,6 +26,12 @@ const AppBar = () => {
           label="Repositories"
           onPress={() => navigate("/")}
         />
+        {me &&
+          <AppBarTab
+            label="Create a review"
+            onPress={() => navigate("/createReview")}
+          />
+        }
         {!me ?
           <AppBarTab
             label="Sign in"

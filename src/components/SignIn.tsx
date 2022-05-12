@@ -4,6 +4,7 @@ import Button from "./Button"
 import ControlledTextInput from "./ControlledTextInput"
 import { useSignIn } from "../hooks"
 import { theme } from "../theme"
+import { isEmpty } from "../util"
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +47,7 @@ const SignIn = () => {
           }}
         />
         <Button
-          disabled={Object.keys(errors).length > 0}
+          disabled={!isEmpty(errors)}
           label="SIGN IN"
           onPress={handleSubmit(onSubmit)}
         />

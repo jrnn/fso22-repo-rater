@@ -18,3 +18,7 @@ export const toYyyyMmDd = (dateString: string): string => {
     return "N/A"
   }
 }
+
+export const isEmpty = (o: object) => {
+  return !o || Object.keys(o).length === 0
+}

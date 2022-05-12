@@ -1,3 +1,10 @@
+export interface CreateReviewFormInputs {
+  repositoryName: string,
+  ownerName: string,
+  rating: string,
+  text: string
+}
+
 export interface Credentials {
   username: string
   password: string
