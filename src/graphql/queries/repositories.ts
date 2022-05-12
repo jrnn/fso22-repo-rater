@@ -23,6 +23,7 @@ const REPOSITORIES = gql`
           ratingAverage
           reviewCount
           ownerAvatarUrl
+          url
         }
       }
     }
