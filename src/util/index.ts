@@ -6,3 +6,15 @@ export const assertNever = (_: never): never => {
 }
 
 export const doNothing = () => { /**/ }
+
+// I know I know, this is hideous ... :)
+//
+export const toYyyyMmDd = (dateString: string): string => {
+  try {
+    const date = new Date(Date.parse(dateString))
+    const yyyyMmDd = date.toISOString().split("T")[0] || "N/A"
+    return yyyyMmDd.replaceAll("-", ".")
+  } catch (error) {
+    return "N/A"
+  }
+}

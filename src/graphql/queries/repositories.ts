@@ -30,5 +30,8 @@ const REPOSITORIES = gql`
   }
 `
 
+/**
+ * Runs GraphQL query for basic details of all repositories.
+ */
 export const useRepositoriesQuery = () =>
   useQuery<RepositoriesResponse>(REPOSITORIES, { fetchPolicy: "cache-and-network" })

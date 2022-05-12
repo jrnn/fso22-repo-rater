@@ -15,3 +15,13 @@ export interface Repository {
   ownerAvatarUrl: string
   url: string
 }
+
+export interface Review {
+  id: string
+  text: string
+  rating: number
+  createdAt: string
+  user: {
+    username: string
+  }
+}

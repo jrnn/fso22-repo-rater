@@ -1,11 +1,13 @@
 import { FC } from "react"
-import { StyleSheet, View } from "react-native"
+import { FlatList, StyleSheet, View } from "react-native"
 import { useParams } from "react-router-native"
 import * as Linking from "expo-linking"
 import Button from "./Button"
 import RepositoryItem from "./RepositoryItem"
+import ReviewItem from "./ReviewItem"
+import Separator from "./Separator"
 import Text from "./Text"
-import { useRepositories } from "../hooks"
+import { useRepository } from "../hooks"
 import { theme } from "../theme"
 import { Repository } from "../types"
 
@@ -16,11 +18,7 @@ const styles = StyleSheet.create({
   }
 })
 
-interface Props {
-  repository: Repository
-}
-
-const RepositoryDetailsInternal: FC<Props> = ({ repository }) => (
+const RepositoryDetailsHeader: FC<{ repository: Repository }> = ({ repository }) => (
   <View>
     <RepositoryItem repository={repository} />
     <View style={styles.buttonContainer}>
@@ -29,6 +27,7 @@ const RepositoryDetailsInternal: FC<Props> = ({ repository }) => (
         onPress={() => Linking.openURL(repository.url)}
       />
     </View>
+    <Separator />
   </View>
 )
 
@@ -37,12 +36,17 @@ const RepositoryDetails = () => {
   if (!id) {
     throw new Error("RepositoryDetails must be bound to a route ending with '.../:id'")
   }
-  const data = useRepositories()
-  const repository = data.repositories.find(r => r.id === id)
+  const { repository, reviews } = useRepository(id)
+  if (!repository) {
+    return <Text>404</Text>
+  }
   return (
-    !repository ?
-      <Text>404</Text> :
-      <RepositoryDetailsInternal repository={repository} />
+    <FlatList
+      ListHeaderComponent={() => <RepositoryDetailsHeader repository={repository} />}
+      data={reviews}
+      renderItem={({ item }) => <ReviewItem review={item} />}
+      ItemSeparatorComponent={Separator}
+    />
   )
 }
 
