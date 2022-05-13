@@ -5,8 +5,8 @@ import { useAuthenticateMutation, useCreateUserMutation, useMeQuery } from "../g
 import { Credentials } from "../types"
 
 export const useWhoAmI = () => {
-  const { data, loading } = useMeQuery()
-  return !data || loading
+  const { data } = useMeQuery()
+  return !data
     ? undefined
     : data.me?.username
 }

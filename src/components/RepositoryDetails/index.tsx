@@ -36,16 +36,19 @@ const RepositoryDetails = () => {
   if (!id) {
     throw new Error("RepositoryDetails must be bound to a route ending with '.../:id'")
   }
-  const { repository, reviews } = useRepository(id)
+  const { repository, reviews, fetchNext } = useRepository(id)
   if (!repository) {
     return <Text>404</Text>
   }
   return (
     <FlatList
       ListHeaderComponent={() => <RepositoryDetailsHeader repository={repository} />}
+      ItemSeparatorComponent={Separator}
+      ListFooterComponent={Separator}
       data={reviews}
       renderItem={({ item }) => <ReviewItem review={item} />}
-      ItemSeparatorComponent={Separator}
+      onEndReached={fetchNext}
+      onEndReachedThreshold={0.25}
     />
   )
 }

@@ -4,6 +4,10 @@ import { Repository } from "../../types"
 
 interface RepositoriesResponse {
   repositories: {
+    pageInfo: {
+      endCursor: string
+      hasNextPage: boolean
+    }
     edges: ReadonlyArray<{
       node: Repository
     }>
@@ -11,6 +15,8 @@ interface RepositoriesResponse {
 }
 
 interface RepositoriesVariables {
+  first: number
+  after: string
   orderBy: "CREATED_AT" | "RATING_AVERAGE"
   orderDirection: "ASC" | "DESC"
   searchKeyword: string
@@ -19,15 +25,23 @@ interface RepositoriesVariables {
 const REPOSITORIES = gql`
   ${REPOSITORY_FIELDS}
   query (
+    $first: Int,
+    $after: String,
     $orderBy: AllRepositoriesOrderBy,
     $orderDirection: OrderDirection,
     $searchKeyword: String
   ) {
     repositories(
+      first: $first,
+      after: $after,
       orderBy: $orderBy,
       orderDirection: $orderDirection,
       searchKeyword: $searchKeyword
     ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
       edges {
         node {
           ...RepositoryFields

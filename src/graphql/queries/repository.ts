@@ -5,6 +5,10 @@ import { Repository, Review } from "../../types"
 interface RepositoryResponse {
   repository: Repository & {
     reviews: {
+      pageInfo: {
+        endCursor: string
+        hasNextPage: boolean
+      }
       edges: ReadonlyArray<{
         node: Review
       }>
@@ -13,19 +17,30 @@ interface RepositoryResponse {
 }
 
 interface RepositoryVariables {
+  first: number
+  after: string
   repositoryId: string
 }
 
 const REPOSITORY = gql`
   ${REPOSITORY_FIELDS}
   query(
+    $first: Int,
+    $after: String,
     $repositoryId: ID!
   ) {
     repository(
       id: $repositoryId
     ) {
       ...RepositoryFields
-      reviews {
+      reviews (
+        first: $first,
+        after: $after
+      ){
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
         edges {
           node {
             id
@@ -45,8 +60,8 @@ const REPOSITORY = gql`
 /**
  * Runs GraphQL query for a given repository's details and associated reviews.
  */
-export const useRepositoryQuery = (repositoryId: string) =>
+export const useRepositoryQuery = (variables: RepositoryVariables) =>
   useQuery<RepositoryResponse, RepositoryVariables>(REPOSITORY, {
-    fetchPolicy: "cache-and-network",
-    variables: { repositoryId }
+    variables,
+    fetchPolicy: "cache-and-network"
   })

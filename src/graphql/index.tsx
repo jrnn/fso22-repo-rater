@@ -2,9 +2,23 @@ import { APOLLO_URI } from "../config"
 import { FC, PropsWithChildren } from "react"
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client"
 import { setContext } from "@apollo/client/link/context"
+import { relayStylePagination } from "@apollo/client/utilities"
 import { AuthStorage, useAuthStorage } from "../contexts"
 
-const cache = new InMemoryCache()
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        repositories: relayStylePagination()
+      }
+    },
+    Repository: {
+      fields: {
+        reviews: relayStylePagination()
+      }
+    }
+  }
+})
 const httpLink = createHttpLink({
   uri: APOLLO_URI
 })

@@ -9,17 +9,32 @@ import { CreateReviewFormInputs, Repository, Review } from "../types"
  */
 export const useRepositories = (sortBy: SortingPreference, filterBy: string): {
   repositories: ReadonlyArray<Repository>
+  fetchNext: () => void
 } => {
-  const { data, loading } = useRepositoriesQuery({
+  const { data, loading, fetchMore } = useRepositoriesQuery({
+    first: 5,
+    after: "",
     orderBy: sortBy === "latest" ? "CREATED_AT" : "RATING_AVERAGE",
     orderDirection: sortBy === "lowestRated" ? "ASC" : "DESC",
     searchKeyword: filterBy
   })
-  const repositories = !data || loading
+  const repositories = !data
     ? []
     : data.repositories.edges.map(edge => edge.node)
 
-  return { repositories }
+  const fetchNext = () => {
+    if (!loading && data) {
+      const { endCursor, hasNextPage } = data.repositories.pageInfo
+      if (hasNextPage) {
+        fetchMore({
+          variables: {
+            after: endCursor
+          }
+        })
+      }
+    }
+  }
+  return { repositories, fetchNext }
 }
 
 /**
@@ -28,18 +43,32 @@ export const useRepositories = (sortBy: SortingPreference, filterBy: string): {
  * edgy-nody response for ease of access.
  */
 export const useRepository = (repositoryId: string): {
-  repository?: Repository
+  repository: Repository | undefined
   reviews: ReadonlyArray<Review>
+  fetchNext: () => void
 } => {
-  const { data, loading } = useRepositoryQuery(repositoryId)
-  if (!data || loading) {
-    return {
-      reviews: []
+  const { data, loading, fetchMore } = useRepositoryQuery({
+    first: 5,
+    after: "",
+    repositoryId
+  })
+  const fetchNext = () => {
+    if (!loading && data) {
+      const { endCursor, hasNextPage } = data.repository.reviews.pageInfo
+      if (hasNextPage) {
+        fetchMore({
+          variables: {
+            after: endCursor
+          }
+        })
+      }
     }
   }
-  const repository = data.repository
-  const reviews = repository.reviews.edges.map(edge => edge.node)
-  return { repository, reviews }
+  return {
+    repository: data?.repository,
+    reviews: data?.repository.reviews.edges.map(edge => edge.node) || [],
+    fetchNext
+  }
 }
 
 /**

@@ -28,14 +28,15 @@ const Header = () => (
 const RepositoryList = () => {
   const sortBy = useSortingPreference()
   const filterBy = useSearchKeyword()
-  const { repositories } = useRepositories(sortBy, filterBy)
+  const { repositories, fetchNext } = useRepositories(sortBy, filterBy)
   const navigate = useNavigate()
 
   return (
     <FlatList
       ListHeaderComponent={Header}
-      data={repositories}
       ItemSeparatorComponent={Separator}
+      ListFooterComponent={Separator}
+      data={repositories}
       renderItem={({ item }) => (
         <Pressable
           onPress={() => navigate(`/repositories/${item.id}`)}
@@ -46,6 +47,8 @@ const RepositoryList = () => {
           <RepositoryItem repository={item} />
         </Pressable>
       )}
+      onEndReached={fetchNext}
+      onEndReachedThreshold={0.25}
     />
   )
 }

@@ -10,7 +10,8 @@ import SignUp from "./components/SignUp"
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
+    flex: 1
   }
 })
 
