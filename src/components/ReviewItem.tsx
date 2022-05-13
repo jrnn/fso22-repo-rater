@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   rating: {
-    display: "flex",
+    flex: 0,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: theme.palette.primary,
@@ -41,9 +41,11 @@ interface Props {
 const ReviewItem: FC<Props> = ({ review }) => (
   <View style={styles.itemContainer}>
     <View style={styles.ratingContainer}>
-      <Text color="light" variant="subheading" style={styles.rating}>
-        {review.rating}
-      </Text>
+      <View style={styles.rating}>
+        <Text color="light" variant="subheading">
+          {review.rating}
+        </Text>
+      </View>
     </View>
     <View style={styles.textContainer}>
       <Text weight="bold" style={styles.bottomGutter}>

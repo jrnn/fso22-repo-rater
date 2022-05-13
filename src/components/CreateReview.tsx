@@ -1,19 +1,12 @@
-import { StyleSheet, View } from "react-native"
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import Button from "./Button"
+import Container from "./Container"
 import ControlledTextInput from "./ControlledTextInput"
 import { useCreateReview } from "../hooks"
-import { theme } from "../theme"
 import { CreateReviewFormInputs } from "../types"
 import { isEmpty } from "../util"
-
-const styles = StyleSheet.create({
-  container: {
-    padding: theme.spacing.regular
-  }
-})
 
 const ratingErrorMessage = "Rating must be an integer between 0 and 100"
 const schema = yup.object().shape({
@@ -41,7 +34,7 @@ const CreateReview = () => {
 
   return (
     <FormProvider { ...form }>
-      <View style={styles.container}>
+      <Container>
         <ControlledTextInput
           name="ownerName"
           placeholder="Repository owner name"
@@ -64,7 +57,7 @@ const CreateReview = () => {
           label="CREATE REVIEW"
           onPress={handleSubmit(onSubmit)}
         />
-      </View>
+      </Container>
     </FormProvider>
   )
 }

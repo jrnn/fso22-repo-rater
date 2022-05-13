@@ -1,4 +1,5 @@
 import { gql, useQuery } from "@apollo/client"
+import { REPOSITORY_FIELDS } from "../fragments"
 import { Repository } from "../../types"
 
 interface RepositoriesResponse {
@@ -9,21 +10,24 @@ interface RepositoriesResponse {
   }
 }
 
+interface RepositoriesVariables {
+  orderBy: "CREATED_AT" | "RATING_AVERAGE"
+  orderDirection: "ASC" | "DESC"
+}
+
 const REPOSITORIES = gql`
-  query {
-    repositories {
+  ${REPOSITORY_FIELDS}
+  query (
+    $orderBy: AllRepositoriesOrderBy,
+    $orderDirection: OrderDirection
+  ) {
+    repositories(
+      orderBy: $orderBy,
+      orderDirection: $orderDirection
+    ) {
       edges {
         node {
-          id
-          fullName
-          description
-          language
-          forksCount
-          stargazersCount
-          ratingAverage
-          reviewCount
-          ownerAvatarUrl
-          url
+          ...RepositoryFields
         }
       }
     }
@@ -33,5 +37,8 @@ const REPOSITORIES = gql`
 /**
  * Runs GraphQL query for basic details of all repositories.
  */
-export const useRepositoriesQuery = () =>
-  useQuery<RepositoriesResponse>(REPOSITORIES, { fetchPolicy: "cache-and-network" })
+export const useRepositoriesQuery = (variables: RepositoriesVariables) =>
+  useQuery<RepositoriesResponse, RepositoriesVariables>(REPOSITORIES, {
+    variables,
+    fetchPolicy: "cache-and-network"
+  })

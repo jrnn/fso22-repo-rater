@@ -22,7 +22,7 @@ const createApolloClient = (authStorage: AuthStorage) => {
         }
       }
     } catch (error) {
-      console.error(error)
+      console.log(error)
     }
     return { headers }
   })

@@ -1,4 +1,5 @@
 import { gql, useQuery } from "@apollo/client"
+import { REPOSITORY_FIELDS } from "../fragments"
 import { Repository, Review } from "../../types"
 
 interface RepositoryResponse {
@@ -16,22 +17,14 @@ interface RepositoryVariables {
 }
 
 const REPOSITORY = gql`
+  ${REPOSITORY_FIELDS}
   query(
     $repositoryId: ID!
   ) {
     repository(
       id: $repositoryId
     ) {
-      id
-      fullName
-      description
-      language
-      forksCount
-      stargazersCount
-      ratingAverage
-      reviewCount
-      ownerAvatarUrl
-      url
+      ...RepositoryFields
       reviews {
         edges {
           node {

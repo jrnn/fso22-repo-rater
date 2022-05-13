@@ -13,7 +13,7 @@ export const toYyyyMmDd = (dateString: string): string => {
   try {
     const date = new Date(Date.parse(dateString))
     const yyyyMmDd = date.toISOString().split("T")[0] || "N/A"
-    return yyyyMmDd.replaceAll("-", ".")
+    return yyyyMmDd.replace(/-/g, ".")
   } catch (error) {
     return "N/A"
   }

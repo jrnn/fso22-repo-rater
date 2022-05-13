@@ -1,7 +1,9 @@
 import { FlatList, Pressable, StyleSheet } from "react-native"
 import { useNavigate } from "react-router-native"
 import RepositoryItem from "./RepositoryItem"
+import RepositorySorter from "./RepositorySorter"
 import Separator from "./Separator"
+import { useSortingPreference } from "../contexts"
 import { useRepositories } from "../hooks"
 
 const styles = StyleSheet.create({
@@ -11,10 +13,12 @@ const styles = StyleSheet.create({
 })
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories()
+  const sortBy = useSortingPreference()
+  const { repositories } = useRepositories(sortBy)
   const navigate = useNavigate()
   return (
     <FlatList
+      ListHeaderComponent={() => <RepositorySorter />}
       data={repositories}
       ItemSeparatorComponent={Separator}
       renderItem={({ item }) => (

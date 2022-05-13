@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-native"
-import { useNotifier } from "../contexts"
+import { SortingPreference, useNotifier } from "../contexts"
 import { useCreateReviewMutation, useRepositoriesQuery, useRepositoryQuery } from "../graphql"
 import { CreateReviewFormInputs, Repository, Review } from "../types"
 
@@ -7,10 +7,13 @@ import { CreateReviewFormInputs, Repository, Review } from "../types"
  * Fetches the basic details of all repositories. Doesn't really do anything on
  * top of abstracting away the GraphQL specifics (incl. response structure).
  */
-export const useRepositories = (): {
+export const useRepositories = (sortBy: SortingPreference): {
   repositories: ReadonlyArray<Repository>
 } => {
-  const { data } = useRepositoriesQuery()
+  const { data } = useRepositoriesQuery({
+    orderBy: sortBy === "latest" ? "CREATED_AT" : "RATING_AVERAGE",
+    orderDirection: sortBy === "lowestRated" ? "ASC" : "DESC"
+  })
   const repositories = !data
     ? []
     : data.repositories.edges.map(edge => edge.node)
@@ -67,7 +70,7 @@ export const useCreateReview = () => {
         navigate(`/repositories/${data.createReview.repositoryId}`, { replace: true })
       },
       onError: error => {
-        console.error(error)
+        console.log(error)
         notifyError(error.message)
       }
     })

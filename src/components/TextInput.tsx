@@ -48,6 +48,7 @@ const ExpandingTextInput: FC<PropsInternal> = ({ invalid, ...props }) => {
         invalid && styles.invalid,
         { height: Math.max(height, MIN_HEIGHT) }
       ]}
+      textAlignVertical="top"
     />
   )
 }

@@ -30,7 +30,7 @@ export const useSignIn = () => {
         navigate("/", { replace: true })
       },
       onError: error => {
-        console.error(error)
+        console.log(error)
         notifyError("Invalid username or password")
       }
     })
@@ -67,7 +67,7 @@ export const useSignUp = () => {
         signIn(credentials)
       },
       onError: error => {
-        console.error(error)
+        console.log(error)
         notifyError(error.message)
       }
     })
