@@ -1,39 +1,70 @@
 /**
- * This is probably unnecessary, but I didn't want the sorting selection to
- * disappear on page changes, without hoisting local state and prop drilling.
+ * This is a bit bloated, but I couldn't get these working simply with local state WITHOUT hoisting
+ * the state to Main and prop drilling it back down. I think this is preferrable, because Main
+ * shouldn't need to know anything about filtering and sorting.
  */
 
 import { createContext, Dispatch, FC, PropsWithChildren, SetStateAction, useContext, useState } from "react"
 
 export type SortingPreference = "latest" | "highestRated" | "lowestRated"
 type SetSortingPreference = Dispatch<SetStateAction<SortingPreference>>
+type SetSearchKeyword = Dispatch<SetStateAction<string>>
 
 const SortingPreferenceContext = createContext<SortingPreference | undefined>(undefined)
 const SetSortingPreferenceContext = createContext<SetSortingPreference | undefined>(undefined)
+const SearchKeywordContext = createContext<string | undefined>(undefined)
+const SetSearchKeywordContext = createContext<SetSearchKeyword | undefined>(undefined)
 
 export const SortingPreferenceProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
-  const [ sortingPreference, setSortingPreference ] = useState<SortingPreference>("latest")
+  const [ preference, setPreference ] = useState<SortingPreference>("latest")
   return (
-    <SetSortingPreferenceContext.Provider value={setSortingPreference}>
-      <SortingPreferenceContext.Provider value={sortingPreference}>
+    <SetSortingPreferenceContext.Provider value={setPreference}>
+      <SortingPreferenceContext.Provider value={preference}>
         {children}
       </SortingPreferenceContext.Provider>
     </SetSortingPreferenceContext.Provider>
   )
 }
 
+export const SearchKeywordProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
+  const [ keyword, setKeyword ] = useState<string>("")
+  return (
+    <SetSearchKeywordContext.Provider value={setKeyword}>
+      <SearchKeywordContext.Provider value={keyword}>
+        {children}
+      </SearchKeywordContext.Provider>
+    </SetSearchKeywordContext.Provider>
+  )
+}
+
 export const useSortingPreference = (): SortingPreference => {
-  const sortingPreference = useContext(SortingPreferenceContext)
-  if (!sortingPreference) {
+  const preference = useContext(SortingPreferenceContext)
+  if (preference === undefined) {
     throw new Error("'useSortingPreference' may only be used from within SortingPreferenceProvider")
   }
-  return sortingPreference
+  return preference
 }
 
 export const useSortingPreferenceSetter = (): SetSortingPreference => {
-  const setSortingPreference = useContext(SetSortingPreferenceContext)
-  if (!setSortingPreference) {
+  const setPreference = useContext(SetSortingPreferenceContext)
+  if (setPreference === undefined) {
     throw new Error("'useSortingPreferenceSetter' may only be used from within SortingPreferenceProvider")
   }
-  return setSortingPreference
+  return setPreference
+}
+
+export const useSearchKeyword = (): string => {
+  const keyword = useContext(SearchKeywordContext)
+  if (keyword === undefined) {
+    throw new Error("'useSearchKeyword' may only be used from within SearchKeywordProvider")
+  }
+  return keyword
+}
+
+export const useSearchKeywordSetter = (): SetSearchKeyword => {
+  const setKeyword = useContext(SetSearchKeywordContext)
+  if (setKeyword === undefined) {
+    throw new Error("'useSearchKeywordSetter' may only be used from within SearchKeywordProvider")
+  }
+  return setKeyword
 }

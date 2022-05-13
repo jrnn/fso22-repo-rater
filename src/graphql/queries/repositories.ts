@@ -13,17 +13,20 @@ interface RepositoriesResponse {
 interface RepositoriesVariables {
   orderBy: "CREATED_AT" | "RATING_AVERAGE"
   orderDirection: "ASC" | "DESC"
+  searchKeyword: string
 }
 
 const REPOSITORIES = gql`
   ${REPOSITORY_FIELDS}
   query (
     $orderBy: AllRepositoriesOrderBy,
-    $orderDirection: OrderDirection
+    $orderDirection: OrderDirection,
+    $searchKeyword: String
   ) {
     repositories(
       orderBy: $orderBy,
-      orderDirection: $orderDirection
+      orderDirection: $orderDirection,
+      searchKeyword: $searchKeyword
     ) {
       edges {
         node {

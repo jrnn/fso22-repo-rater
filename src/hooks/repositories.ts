@@ -7,14 +7,15 @@ import { CreateReviewFormInputs, Repository, Review } from "../types"
  * Fetches the basic details of all repositories. Doesn't really do anything on
  * top of abstracting away the GraphQL specifics (incl. response structure).
  */
-export const useRepositories = (sortBy: SortingPreference): {
+export const useRepositories = (sortBy: SortingPreference, filterBy: string): {
   repositories: ReadonlyArray<Repository>
 } => {
-  const { data } = useRepositoriesQuery({
+  const { data, loading } = useRepositoriesQuery({
     orderBy: sortBy === "latest" ? "CREATED_AT" : "RATING_AVERAGE",
-    orderDirection: sortBy === "lowestRated" ? "ASC" : "DESC"
+    orderDirection: sortBy === "lowestRated" ? "ASC" : "DESC",
+    searchKeyword: filterBy
   })
-  const repositories = !data
+  const repositories = !data || loading
     ? []
     : data.repositories.edges.map(edge => edge.node)
 
@@ -30,8 +31,8 @@ export const useRepository = (repositoryId: string): {
   repository?: Repository
   reviews: ReadonlyArray<Review>
 } => {
-  const { data } = useRepositoryQuery(repositoryId)
-  if (!data) {
+  const { data, loading } = useRepositoryQuery(repositoryId)
+  if (!data || loading) {
     return {
       reviews: []
     }

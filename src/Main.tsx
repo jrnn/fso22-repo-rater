@@ -1,12 +1,12 @@
 import { StyleSheet, View } from "react-native"
 import { Navigate, Route, Routes } from "react-router-native"
-import AppBar from "./AppBar"
-import CreateReview from "./CreateReview"
-import Notification from "./Notification"
-import RepositoryDetails from "./RepositoryDetails"
-import RepositoryList from "./RepositoryList"
-import SignIn from "./SignIn"
-import SignUp from "./SignUp"
+import AppBar from "./components/AppBar"
+import CreateReview from "./components/CreateReview"
+import Notification from "./components/Notification"
+import RepositoryDetails from "./components/RepositoryDetails"
+import RepositoryList from "./components/RepositoryList"
+import SignIn from "./components/SignIn"
+import SignUp from "./components/SignUp"
 
 const styles = StyleSheet.create({
   container: {

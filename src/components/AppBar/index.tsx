@@ -2,8 +2,8 @@ import { ScrollView, StyleSheet, View } from "react-native"
 import { useNavigate } from "react-router-native"
 import Constants from "expo-constants"
 import AppBarTab from "./AppBarTab"
-import { useSignOut, useWhoAmI } from "../hooks"
-import { theme } from "../theme"
+import { useSignOut, useWhoAmI } from "../../hooks"
+import { theme } from "../../theme"
 
 const styles = StyleSheet.create({
   container: {

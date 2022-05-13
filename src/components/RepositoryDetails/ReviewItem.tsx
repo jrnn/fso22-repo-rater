@@ -1,9 +1,9 @@
 import { FC } from "react"
 import { StyleSheet, View } from "react-native"
-import Text from "./Text"
-import { theme } from "../theme"
-import { Review } from "../types"
-import { toYyyyMmDd } from "../util"
+import Text from "../Text"
+import { theme } from "../../theme"
+import { Review } from "../../types"
+import { toYyyyMmDd } from "../../util"
 
 const styles = StyleSheet.create({
   bottomGutter: {

@@ -6,6 +6,7 @@ const MIN_HEIGHT = 128
 
 const styles = StyleSheet.create({
   input: {
+    backgroundColor: theme.palette.light,
     borderColor: theme.palette.grey,
     borderWidth: 1,
     height: 48,

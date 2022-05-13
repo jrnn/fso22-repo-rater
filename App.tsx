@@ -1,8 +1,8 @@
 import { NativeRouter } from "react-router-native"
 import { StatusBar } from "expo-status-bar"
-import { AuthStorageProvider, NotificationProvider, SortingPreferenceProvider } from "./src/contexts"
+import { AuthStorageProvider, NotificationProvider, SearchKeywordProvider, SortingPreferenceProvider } from "./src/contexts"
 import { GraphQLProvider } from "./src/graphql"
-import Main from "./src/components/Main"
+import Main from "./src/Main"
 
 const App = () => (
   <>
@@ -11,7 +11,9 @@ const App = () => (
         <GraphQLProvider>
           <NotificationProvider>
             <SortingPreferenceProvider>
-              <Main />
+              <SearchKeywordProvider>
+                <Main />
+              </SearchKeywordProvider>
             </SortingPreferenceProvider>
           </NotificationProvider>
         </GraphQLProvider>
