@@ -1,5 +1,8 @@
 import { FC } from "react"
-import { StyleSheet, View } from "react-native"
+import { Alert, StyleSheet, View } from "react-native"
+import { useNavigate } from "react-router-native"
+import Button from "../Button"
+import Container from "../Container"
 import Text from "../Text"
 import { theme } from "../../theme"
 import { Review } from "../../types"
@@ -9,8 +12,15 @@ const styles = StyleSheet.create({
   bottomGutter: {
     paddingBottom: theme.spacing.dense
   },
-  itemContainer: {
-    backgroundColor: theme.palette.light,
+  buttonContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly"
+  },
+  container: {
+    backgroundColor: theme.palette.light
+  },
+  infoContainer: {
     display: "flex",
     flexDirection: "row"
   },
@@ -35,29 +45,71 @@ const styles = StyleSheet.create({
 })
 
 interface Props {
+  isOwner: boolean
+  onDelete: (id: string) => void
   review: Review
 }
 
-const ReviewItem: FC<Props> = ({ review }) => (
-  <View style={styles.itemContainer}>
+const ReviewInfo: FC<Review> = ({ createdAt, rating, text, user }) => (
+  <View style={styles.infoContainer}>
     <View style={styles.ratingContainer}>
       <View style={styles.rating}>
         <Text color="light" variant="subheading">
-          {review.rating}
+          {rating}
         </Text>
       </View>
     </View>
     <View style={styles.textContainer}>
       <Text weight="bold" style={styles.bottomGutter}>
-        {review.user.username}
+        {user.username}
       </Text>
       <Text variant="caption" style={styles.bottomGutter}>
-        {toYyyyMmDd(review.createdAt)}
+        {toYyyyMmDd(createdAt)}
       </Text>
       <Text>
-        {review.text}
+        {text}
       </Text>
     </View>
+  </View>
+)
+
+const Buttons: FC<{ review: Review, deleteReview: () => void }> = ({ deleteReview, review }) => {
+  const navigate = useNavigate()
+  return (
+    <Container style={styles.buttonContainer}>
+      <Button
+        label="View repository"
+        onPress={() => navigate(`/repositories/${review.repository.id}`)}
+      />
+      <Button
+        label="Delete review"
+        variant="warning"
+        onPress={() => {
+          Alert.alert(
+            "Delete review",
+            "Are you sure? This cannot be undone.",
+            [
+              {
+                text: "Delete",
+                style: "default",
+                onPress: deleteReview
+              },
+              {
+                text: "Cancel",
+                style: "cancel"
+              }
+            ]
+          )
+        }}
+      />
+    </Container>
+  )
+}
+
+const ReviewItem: FC<Props> = ({ isOwner, onDelete, review }) => (
+  <View style={styles.container}>
+    <ReviewInfo { ...review } />
+    {isOwner && <Buttons review={review} deleteReview={() => onDelete(review.id)} />}
   </View>
 )
 

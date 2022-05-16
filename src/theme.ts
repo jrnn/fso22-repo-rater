@@ -11,8 +11,7 @@ export const theme = {
     error: "#c12f3e",
     success: "#537f59",
     grey: "#7f838b",
-    greyLight: "#adb3bf",
-    _maybeLater: "#25354d"
+    greyLight: "#adb3bf"
   },
   rounding: {
     regular: 6

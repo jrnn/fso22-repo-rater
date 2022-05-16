@@ -31,4 +31,7 @@ export interface Review {
   user: {
     username: string
   }
+  repository: {
+    id: string
+  }
 }
