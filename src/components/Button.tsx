@@ -15,20 +15,27 @@ const styles = StyleSheet.create({
   },
   pressed: {
     backgroundColor: theme.palette.primaryLight
+  },
+  warning: {
+    backgroundColor: theme.palette.error
   }
 })
+
+type Variant = "regular" | "warning"
 
 interface Props {
   disabled?: boolean
   label: string
   onPress?: (event: GestureResponderEvent) => void
+  variant?: Variant
 }
 
-const Button: FC<Props> = ({ disabled = false, label, onPress }) => (
+const Button: FC<Props> = ({ disabled = false, label, onPress, variant = "regular" }) => (
   <Pressable
     onPress={disabled ? doNothing : onPress}
     style={({ pressed }) => [
       styles.button,
+      variant === "warning" && styles.warning,
       pressed && styles.pressed,
       disabled && styles.disabled
     ]}

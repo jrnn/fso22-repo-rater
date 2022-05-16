@@ -4,26 +4,37 @@ import * as yup from "yup"
 import Button from "./Button"
 import Container from "./Container"
 import ControlledTextInput from "./ControlledTextInput"
-import { useSignIn } from "../hooks"
+import { useSignUp } from "../hooks"
 import { Credentials } from "../types"
 import { isEmpty } from "../util"
 
 const schema = yup.object().shape({
-  username: yup.string().required("Username cannot be empty"),
-  password: yup.string().required("Password cannot be empty")
+  username: yup.string()
+    .min(1, "Username must have at least 1 character")
+    .max(30, "Username must have less than 30 characters"),
+  password: yup.string()
+    .min(5, "Password must have at least 5 characters")
+    .max(50, "Password must have less than 50 characters"),
+  confirmPassword: yup.string()
+    .oneOf([ yup.ref("password") ], "Passwords do not match")
 })
 
-const SignIn = () => {
-  const { signIn } = useSignIn()
-  const form = useForm<Credentials>({
+type Inputs = Credentials & {
+  confirmPassword: string
+}
+
+const SignUp = () => {
+  const { signUp } = useSignUp()
+  const form = useForm<Inputs>({
     resolver: yupResolver(schema),
     defaultValues: {
       username: "",
-      password: ""
+      password: "",
+      confirmPassword: ""
     }
   })
   const { formState: { errors }, handleSubmit } = form
-  const onSubmit: SubmitHandler<Credentials> = credentials => signIn(credentials)
+  const onSubmit: SubmitHandler<Inputs> = ({ confirmPassword, ...credentials }) => signUp(credentials)
 
   return (
     <FormProvider { ...form }>
@@ -37,9 +48,14 @@ const SignIn = () => {
           obscured
           placeholder="Password"
         />
+        <ControlledTextInput
+          name="confirmPassword"
+          obscured
+          placeholder="Confirm password"
+        />
         <Button
           disabled={!isEmpty(errors)}
-          label="SIGN IN"
+          label="SIGN UP"
           onPress={handleSubmit(onSubmit)}
         />
       </Container>
@@ -47,4 +63,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default SignUp

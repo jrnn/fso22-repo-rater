@@ -1,3 +1,10 @@
+export interface CreateReviewFormInputs {
+  repositoryName: string,
+  ownerName: string,
+  rating: string,
+  text: string
+}
+
 export interface Credentials {
   username: string
   password: string
@@ -13,4 +20,18 @@ export interface Repository {
   ratingAverage: number
   reviewCount: number
   ownerAvatarUrl: string
+  url: string
+}
+
+export interface Review {
+  id: string
+  text: string
+  rating: number
+  createdAt: string
+  user: {
+    username: string
+  }
+  repository: {
+    id: string
+  }
 }

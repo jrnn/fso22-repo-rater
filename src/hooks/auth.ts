@@ -1,11 +1,13 @@
 import { useApolloClient } from "@apollo/client"
 import { useNavigate } from "react-router-native"
 import { useAuthStorage, useNotifier } from "../contexts"
-import { useAuthenticateMutation, useMeQuery } from "../graphql"
+import { useAuthenticateMutation, useCreateUserMutation, useMeQuery } from "../graphql"
 import { Credentials } from "../types"
 
 export const useWhoAmI = () => {
-  const { data } = useMeQuery()
+  const { data } = useMeQuery({
+    getReviews: false
+  })
   return !data
     ? undefined
     : data.me?.username
@@ -30,7 +32,7 @@ export const useSignIn = () => {
         navigate("/", { replace: true })
       },
       onError: error => {
-        console.error(error)
+        console.log(error)
         notifyError("Invalid username or password")
       }
     })
@@ -51,4 +53,27 @@ export const useSignOut = () => {
   }
 
   return { signOut }
+}
+
+export const useSignUp = () => {
+  const [ mutate ] = useCreateUserMutation()
+  const { signIn } = useSignIn()
+  const { notifyError } = useNotifier()
+
+  const signUp = (credentials: Credentials) => {
+    mutate({
+      variables: {
+        user: credentials
+      },
+      onCompleted: _ => {
+        signIn(credentials)
+      },
+      onError: error => {
+        console.log(error)
+        notifyError(error.message)
+      }
+    })
+  }
+
+  return { signUp }
 }

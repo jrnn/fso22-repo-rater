@@ -1,21 +1,15 @@
-import { StyleSheet, View } from "react-native"
+import { StyleSheet } from "react-native"
 import { useNotification } from "../contexts"
 import { theme } from "../theme"
+import Container from "./Container"
 import Text from "./Text"
 
 const styles = StyleSheet.create({
-  container: {
-    padding: theme.spacing.regular
-  },
-  notification: {
-    borderWidth: 1,
-    padding: theme.spacing.regular
-  },
   success: {
-    borderColor: theme.palette.success
+    backgroundColor: theme.palette.success
   },
   error: {
-    borderColor: theme.palette.error
+    backgroundColor: theme.palette.error
   }
 })
 
@@ -25,17 +19,14 @@ const Notification = () => {
     return null
   }
   return (
-    <View style={styles.container}>
-      <View style={[
-        styles.notification,
-        type === "success" && styles.success,
-        type === "error" && styles.error
-      ]}>
-        <Text color={type} weight="bold">
-          {message}
-        </Text>
-      </View>
-    </View>
+    <Container style={[
+      type === "success" && styles.success,
+      type === "error" && styles.error
+    ]}>
+      <Text color="light" weight="bold">
+        {message}
+      </Text>
+    </Container>
   )
 }
 
