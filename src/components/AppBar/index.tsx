@@ -27,10 +27,16 @@ const AppBar = () => {
           onPress={() => navigate("/")}
         />
         {me &&
-          <AppBarTab
-            label="Create a review"
-            onPress={() => navigate("/createReview")}
-          />
+          (<>
+            <AppBarTab
+              label="Create a review"
+              onPress={() => navigate("/createReview")}
+            />
+            <AppBarTab
+              label="My reviews"
+              onPress={() => navigate("/myReviews")}
+            />
+          </>)
         }
         {!me ?
           <AppBarTab

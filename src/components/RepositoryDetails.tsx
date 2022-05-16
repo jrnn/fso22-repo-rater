@@ -1,15 +1,15 @@
 import { FC } from "react"
-import { FlatList, StyleSheet, View } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { useParams } from "react-router-native"
 import * as Linking from "expo-linking"
-import Button from "../Button"
-import RepositoryItem from "../RepositoryItem"
-import ReviewItem from "./ReviewItem"
-import Separator from "../Separator"
-import Text from "../Text"
-import { useRepository } from "../../hooks"
-import { theme } from "../../theme"
-import { Repository } from "../../types"
+import Button from "./Button"
+import RepositoryItem from "./RepositoryItem"
+import ReviewList from "./ReviewList"
+import Separator from "./Separator"
+import Text from "./Text"
+import { useRepository } from "../hooks"
+import { theme } from "../theme"
+import { Repository } from "../types"
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -41,14 +41,10 @@ const RepositoryDetails = () => {
     return <Text>404</Text>
   }
   return (
-    <FlatList
-      ListHeaderComponent={() => <RepositoryDetailsHeader repository={repository} />}
-      ItemSeparatorComponent={Separator}
-      ListFooterComponent={Separator}
-      data={reviews}
-      renderItem={({ item }) => <ReviewItem review={item} />}
+    <ReviewList
+      HeaderElement={() => <RepositoryDetailsHeader repository={repository} />}
       onEndReached={fetchNext}
-      onEndReachedThreshold={0.25}
+      reviews={reviews}
     />
   )
 }

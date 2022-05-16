@@ -14,3 +14,15 @@ export const REPOSITORY_FIELDS = gql`
     url
   }
 `
+
+export const REVIEW_FIELDS = gql`
+  fragment ReviewFields on Review {
+    id
+    text
+    rating
+    createdAt
+    user {
+      username
+    }
+  }
+`

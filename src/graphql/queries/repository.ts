@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client"
-import { REPOSITORY_FIELDS } from "../fragments"
+import { REPOSITORY_FIELDS, REVIEW_FIELDS } from "../fragments"
 import { Repository, Review } from "../../types"
 
 interface RepositoryResponse {
@@ -24,6 +24,7 @@ interface RepositoryVariables {
 
 const REPOSITORY = gql`
   ${REPOSITORY_FIELDS}
+  ${REVIEW_FIELDS}
   query(
     $first: Int,
     $after: String,
@@ -43,13 +44,7 @@ const REPOSITORY = gql`
         }
         edges {
           node {
-            id
-            text
-            rating
-            createdAt
-            user {
-              username
-            }
+            ...ReviewFields
           }
         }
       }
